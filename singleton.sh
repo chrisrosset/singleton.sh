@@ -59,7 +59,7 @@ if [ $prog_in_path -ne 0 ]; then
 fi
 
 # get session list
-tmux has-session -t "$session"
+tmux has-session -t "$session" > /dev/null 2>&1
 tmux_running=$?
 
 if [ $tmux_running -ne 0 ]
