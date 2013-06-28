@@ -37,35 +37,30 @@ program=`echo $1 | cut -d" " -f 1`
 
 
 if [ $# -eq 2 ]; then
-	sleep 1
+	: # pass
 elif [ $# -eq 1 ]; then
 	session="$program"
 else
 	error $e_args
 fi
 
-which tmux > /dev/null 2>&1
-prog_in_path=$?
-
-if [ $prog_in_path -ne 0 ]; then
+# check if tmux is in path
+if ! which tmux > /dev/null 2>&1
+then
 	error $e_tmux_not_available
 fi
 
-which $program > /dev/null 2>&1
-prog_in_path=$?
-
-if [ $prog_in_path -ne 0 ]; then
+# check if the user's program is in path
+if ! which $program > /dev/null 2>&1
+then
 	error $e_not_in_path
 fi
 
 # get session list
-tmux has-session -t "$session" > /dev/null 2>&1
-tmux_running=$?
-
-if [ $tmux_running -ne 0 ]
+if ! tmux has-session -t "$session" > /dev/null 2>&1
 then
 	# tmux server not running or session unavailable, run new session
-	tmux new-session -s "$session" "$command"
+	exec tmux new-session -s "$session" "$command"
 else
 	# session running, reattach
 	tmux attach-session -t "$session"
