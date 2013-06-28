@@ -2,8 +2,8 @@
 #
 # singleton.sh
 #
-# Runs a program in a tmux session. If the program is already running, the script
-# reattaches to the already running session.
+# Runs a program in a tmux session. If the program is already running, the
+# script reattaches to the already running session.
 
 # Exit error codes
 e_args=1
@@ -14,7 +14,7 @@ error()
 {
 	case $1 in
 	$e_args)
-		echo "Usage: singleton <program_name> [session_name]"
+		echo "Usage: singleton.sh <program_name> [session_name]"
 		echo "If not specified, session_name will be derived from program_name."
 		;;
 	$e_not_in_path)
